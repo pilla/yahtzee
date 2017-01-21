@@ -395,8 +395,6 @@ function play {
 	print_dice
 	choose_dice
 
-	printf "TACK %s %s %s %s %s" "${DICE[0]}" "${DICE[1]}" "${DICE[2]}" "${DICE[3]}" "${DICE[4]}" "${DICE[5]}"
-
 	if (( ${DICE[0]} == 0 || ${DICE[1]} == 0 || ${DICE[2]} == 0 \
 	 	|| ${DICE[3]} == 0 || ${DICE[4]} == 0 ))
 	then 
@@ -406,6 +404,16 @@ function play {
 
 	select_in_card
 	store_card $PLAY
+}
+
+function cleanup {
+
+	for (( i= 1; i <= $(( $PLAYERS )) ; i++ )); do
+		CARD_FILE=".card_user_$1.txt"
+		USED_FILE=".used_user_$1.txt"
+		rm -f $CARD_FILE
+		rm -f $USED_FILE
+	done
 }
 
 
@@ -440,6 +448,8 @@ function play_loop {
 	done
 
 	printf "\n\n PLAYER %s WON!\n\n" "$WINNER"
+	cleanup
+	
 }
 
 
