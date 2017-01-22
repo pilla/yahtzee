@@ -416,7 +416,25 @@ function cleanup {
 	done
 }
 
+function game_over {
+	printf "GAME OVER...... \n\n"
 
+	local WINNER=1
+	local SCORE=0
+
+	for (( i=1; i<=$(( $PLAYERS )); i++)); do
+			printf "PLAYER %s\n" "$i"
+			print_card
+			printf "\n\n"
+			if (( $SUM > $SCORE )) 
+			then
+				SCORE=$SUM
+				WINNER=$i
+			fi
+	done
+
+	printf "\n\n PLAYER %s WON!\n\n" "${WINNER}"
+}
 
 function play_loop {
 
@@ -430,26 +448,10 @@ function play_loop {
 		test_for_end
 	done
 
+	game_over
 
-	printf "GAME OVER...... \n\n"
-
-	local WINNER=1
-	local SCORE=0
-
-	for (( i=1; i<=$(( $PLAYERS )); i++)); do
-			printf "PLAYER %s" "$i\n"
-			print_card
-			printf "\n\n"
-			if (( $SUM > $SCORE )) 
-			then
-				SCORE=$SUM
-				WINNER=$i
-			fi
-	done
-
-	printf "\n\n PLAYER %s WON!\n\n" "$WINNER"
 	cleanup
-	
+
 }
 
 
